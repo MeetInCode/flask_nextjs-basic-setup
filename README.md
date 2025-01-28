@@ -4,5 +4,5 @@ Backend (Flask API): The backend will be running on http://127.0.0.1:5328.
 just run
 
 pnpm install
-  
+pip install -r requirements.txt
 pnpm run dev
