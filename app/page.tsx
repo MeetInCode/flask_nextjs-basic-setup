@@ -3,7 +3,12 @@
 import { useState, useEffect } from "react";
 
 export default function Page() {
-  const [documents, setDocuments] = useState([]);
+  interface Document {
+    $id: string;
+    [key: string]: any;
+  }
+
+  const [documents, setDocuments] = useState<Document[]>([]);
   const [error, setError] = useState("");
 
   // Fetch documents from collection on page load

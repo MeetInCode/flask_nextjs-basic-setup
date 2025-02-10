@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from appwrite.client import Client
@@ -6,6 +7,8 @@ from appwrite.services.storage import Storage
 from appwrite.input_file import InputFile
 import os
 from dotenv import load_dotenv
+
+from api.example import format_query
 
 # Load environment variables
 load_dotenv()
@@ -78,6 +81,21 @@ def delete_file():
         return jsonify({"message": "File deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+    
+    
+@app.route('/api/request_to_python_file', methods=['POST'])
+def handle_query():
+    try:
+        data = request.get_json()
+        query = data.get("query")
+        if not query:
+            return jsonify({"error": "Query parameter is required"}), 400
+        
+        response_str = format_query(query)  # This returns a JSON string
+        response = json.loads(response_str)  # Convert string back to dictionary
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
